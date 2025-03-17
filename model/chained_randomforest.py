@@ -13,42 +13,42 @@ class ChainedRandomForest(BaseModel):
         self.models = []
 
     def train(self, data_y2, data_y3, data_y4) -> None:
-        # model_y2 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
-        # model_y2.fit(data_y2.X_train, data_y2.y_train)  # Train y2
-        # self.models.append(model_y2)
-
-        # model_y3 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
-        # model_y3.fit(data_y3.X_train, data_y3.y_train)  # Train y3
-        # self.models.append(model_y3)
-
-        # model_y4 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
-        # model_y4.fit(data_y4.X_train, data_y4.y_train)  # Train y4
-        # self.models.append(model_y4)
-
 
         model_y2 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
-        print(f"\n🔹 Training RandomForest for y2 with data: {data_y2.X_train.shape} → {data_y2.y_train.shape}")
-        print(f"  - Unique classes in y2:", np.unique(data_y2.y_train, return_counts=True))
         model_y2.fit(data_y2.X_train, data_y2.y_train)  # Train y2
-        print(f"\n🔹 Training RandomForest for y2 with data: {data_y2.X_train.shape} → {data_y2.y_train.shape}")
-        print(f"  - Unique classes in y2:", np.unique(data_y2.y_train, return_counts=True))
         self.models.append(model_y2)
 
         model_y3 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
-        print(f"\n🔹 Training RandomForest for y3 with data: {data_y3.X_train.shape} → {data_y3.y_train.shape}")
-        print(f"  - Unique classes in y3:", np.unique(data_y3.y_train, return_counts=True))
         model_y3.fit(data_y3.X_train, data_y3.y_train)  # Train y3
-        print(f"\n🔹 Training RandomForest for y3 with data: {data_y3.X_train.shape} → {data_y3.y_train.shape}")
-        print(f"  - Unique classes in y3:", np.unique(data_y3.y_train, return_counts=True))
         self.models.append(model_y3)
 
         model_y4 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
-        print(f"\n🔹 Training RandomForest for y4 with data: {data_y4.X_train.shape} → {data_y4.y_train.shape}")
-        print(f"  - Unique classes in y4:", np.unique(data_y4.y_train, return_counts=True))
         model_y4.fit(data_y4.X_train, data_y4.y_train)  # Train y4
-        print(f"\n🔹 Training RandomForest for y4 with data: {data_y4.X_train.shape} → {data_y4.y_train.shape}")
-        print(f"  - Unique classes in y4:", np.unique(data_y4.y_train, return_counts=True))
         self.models.append(model_y4)
+
+        # model_y2 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
+        # print(f"\n🔹 Training RandomForest for y2 with data: {data_y2.X_train.shape} → {data_y2.y_train.shape}")
+        # print(f"  - Unique classes in y2:", np.unique(data_y2.y_train, return_counts=True))
+        # model_y2.fit(data_y2.X_train, data_y2.y_train)  # Train y2
+        # print(f"\n🔹 Training RandomForest for y2 with data: {data_y2.X_train.shape} → {data_y2.y_train.shape}")
+        # print(f"  - Unique classes in y2:", np.unique(data_y2.y_train, return_counts=True))
+        # self.models.append(model_y2)
+        #
+        # model_y3 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
+        # print(f"\n🔹 Training RandomForest for y3 with data: {data_y3.X_train.shape} → {data_y3.y_train.shape}")
+        # print(f"  - Unique classes in y3:", np.unique(data_y3.y_train, return_counts=True))
+        # model_y3.fit(data_y3.X_train, data_y3.y_train)  # Train y3
+        # print(f"\n🔹 Training RandomForest for y3 with data: {data_y3.X_train.shape} → {data_y3.y_train.shape}")
+        # print(f"  - Unique classes in y3:", np.unique(data_y3.y_train, return_counts=True))
+        # self.models.append(model_y3)
+        #
+        # model_y4 = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight='balanced_subsample')
+        # print(f"\n🔹 Training RandomForest for y4 with data: {data_y4.X_train.shape} → {data_y4.y_train.shape}")
+        # print(f"  - Unique classes in y4:", np.unique(data_y4.y_train, return_counts=True))
+        # model_y4.fit(data_y4.X_train, data_y4.y_train)  # Train y4
+        # print(f"\n🔹 Training RandomForest for y4 with data: {data_y4.X_train.shape} → {data_y4.y_train.shape}")
+        # print(f"  - Unique classes in y4:", np.unique(data_y4.y_train, return_counts=True))
+        # self.models.append(model_y4)
 
     def predict(self, X_test: np.ndarray) -> None:
         predictions = np.zeros((X_test.shape[0], len(self.models)))
