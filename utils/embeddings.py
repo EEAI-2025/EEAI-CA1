@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from Config import *
 
 import random
+
 seed =0
 random.seed(seed)
 np.random.seed(seed)
@@ -13,10 +14,13 @@ np.random.seed(seed)
 """
 
 def get_tfidf_embd(df:pd.DataFrame, *args):
+    # Get tf-idf embedding for the dataframe
+
     tfidfconverter = TfidfVectorizer(max_features=2000, min_df=4, max_df=0.90)
     data = df[Config.TICKET_SUMMARY] + ' ' + df[Config.INTERACTION_CONTENT]
     X = tfidfconverter.fit_transform(data).toarray()
 
+    # Concatenate more features the the final embedding
     for arg in args:
         X = np.concatenate((X, df[arg].values.reshape(-1, 1)), axis=1)
 

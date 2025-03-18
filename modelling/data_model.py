@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from Config import *
+
 import random
+
 seed =0
 random.seed(seed)
 np.random.seed(seed)
@@ -12,21 +14,14 @@ class Data():
                  X: np.ndarray,
                  df: pd.DataFrame,
                  target_col: str) -> None:
-        
-        """
-            CODE START
-        """
 
         y = df[target_col].to_numpy()
         y_series = pd.Series(y)
 
-        """
-            CODE END
-        """
-
         good_y_value = y_series.value_counts()[y_series.value_counts() >= 3].index
 
-        if len(good_y_value)<1:
+        # If there are less than 3 records for any class we dont consider anything 
+        if len(good_y_value) < 1:
             print("None of the class have more than 3 records: Skipping ...")
             self.X_train = None
             return
@@ -36,7 +31,9 @@ class Data():
 
         new_test_size = X.shape[0] * 0.2 / X_good.shape[0]
 
+        # Train-test split data for training and prediction for the model
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X_good, y_good, test_size=new_test_size, random_state=0, stratify=y_good)
+        
         self.y = y_good
         self.classes = good_y_value
         self.embeddings = X

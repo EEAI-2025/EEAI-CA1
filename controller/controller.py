@@ -9,31 +9,29 @@ class Controller:
         self.preprocessor = Preprocessor()
 
     def load_data(self):
-        # load the input data
+        # Load the input data
         df = self.preprocessor.get_input_data()
         return df
 
     def preprocess_data(self,df):
-        # De-duplicate input data
+        # De-duplicate input dataframe data
         df = self.preprocessor.de_duplication(df)
-        # remove noise in input data
+
+        # Remove noise in input dataframe data
         df = self.preprocessor.noise_remover(df)
+
         # translate data to english
         # df[Config.TICKET_SUMMARY] = translate_to_en(df[Config.TICKET_SUMMARY].tolist())
         return df
 
-    """
-    CODE START
-    """
     def get_embeddings(self, df: pd.DataFrame, *args):
+        # Get TF-IDF embeddings for the dataframe object
         X = get_tfidf_embd(df, *args)
         return X, df
 
     def get_data_object(self, X: np.ndarray, df: pd.DataFrame, target_col: str):
+        # Get Data object containing training and test data for the dataframe
         return Data(X, df, target_col)
-    """
-    CODE END
-    """
 
     def perform_modelling(self,data: Data, df: pd.DataFrame, name):
         model_predict(data, df, name)

@@ -7,28 +7,23 @@ class Preprocessor:
     def __init__(self):
         self.Config = Config  # Use shared configuration
 
-    """
-        CODE START
-    """
     def perform_encoding(self, df, features) -> pd.DataFrame:
+        # Perform label encoding for the categorical features
+        # in the dataframe
+
         for feature in features:
             le = LabelEncoder()
             df[feature] = le.fit_transform(df[feature].astype(str))
 
         return df
-    """
-        CODE END
-    """
 
-    def get_input_data(self)->pd.DataFrame:
+    def get_input_data(self) -> pd.DataFrame:
         df = pd.read_csv("data//AppGallery.csv", skipinitialspace=True)
         df.rename(columns={'Type 1': 'y1', 'Type 2': 'y2', 'Type 3': 'y3', 'Type 4': 'y4'}, inplace=True)
         df[Config.INTERACTION_CONTENT] = df[Config.INTERACTION_CONTENT].values.astype('U')
         df[Config.TICKET_SUMMARY] = df[Config.TICKET_SUMMARY].values.astype('U')
-
         df["y"] = df[Config.CLASS_COL]
 
-        ####### TEMP #######
         # Ensure all target columns (y2, y3, y4) are present
         if not all(col in df.columns for col in Config.TYPE_COLS):
             raise ValueError(f"Input data must contain all target columns: {Config.TYPE_COLS}")
@@ -36,15 +31,9 @@ class Preprocessor:
         # Filter rows where any of the target columns (y2, y3, y4) are missing or empty
         for col in Config.TYPE_COLS:
             df = df.loc[(df[col] != '') & (~df[col].isna())]
-        ####### TEMP - END #######
 
-        """
-            CODE START
-        """
+        # Perform label encoding for categorical features
         self.perform_encoding(df, Config.TYPE_COLS)
-        """
-            CODE END
-        """
 
         return df
 
